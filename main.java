@@ -143,4 +143,49 @@ public class LuminaryServer {
                     return;
                 }
                 
-                String[] parts =
+                String[] parts = path.substring(1).split("/");
+                String command = parts.length > 0 ? parts[0] : "";
+                String[] args = parts.length > 1 
+                    ? Arrays.copyOfRange(parts, 1, parts.length) 
+                    : new String[0];
+                
+                CommandHandler handler = COMMANDS.get(command);
+                if (handler != null) {
+                    CommandResponse response = handler.execute(args, session);
+                    sendResponse(exchange, 200, response);
+                } else {
+                    sendResponse(exchange, 404, 
+                        new ErrorResponse("error", "Unknown command: " + command));
+                }
+            } else {
+                sendResponse(exchange, 405, 
+                    new ErrorResponse("error", "Method not allowed"));
+            }
+        }
+        
+        private void sendResponse(HttpExchange exchange, int code, CommandResponse response) 
+                throws IOException {
+            String json = GSON.toJson(response);
+            byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
+            exchange.sendResponseHeaders(code, bytes.length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(bytes);
+            }
+        }
+    }
+    
+    public static void main(String[] args) throws IOException {
+        HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
+        server.createContext("/", new ApiHandler());
+        server.setExecutor(threadPool);
+        server.start();
+        
+        System.out.println("""
+            ╔══════════════════════════════════════════╗
+            ║   LUMINARY SERVER v2.7.4 - OPERATIONAL   ║
+            ║   Port: %d                              ║
+            ║   Threads: Virtual (Java 21+)            ║
+            ╚══════════════════════════════════════════╝
+            """.formatted(PORT));
+    }
+}
