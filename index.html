@@ -1,0 +1,75 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LUMINARY_TERM :: v2.7.4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <main id="terminal-container">
+      <div class="status-bar">
+        <span class="status-indicator online"></span>
+        <span class="terminal-id">LUMINARY_TERM v2.7.4</span>
+        <span class="connection-type">SECURE_CHANNEL_ACTIVE</span>
+        <span class="timestamp" id="live-timestamp">--</span>
+      </div>
+
+      <div id="output-region" role="log" aria-live="polite">
+        <div class="boot-sequence">
+          <pre class="ascii-art">
+╔══════════════════════════════════════════╗
+║  ██╗     ██╗   ██╗███╗   ███╗██╗███╗   ██╗ █████╗ ██████╗ ██╗   ██╗ ║
+║  ██║     ██║   ██║████╗ ████║██║████╗  ██║██╔══██╗██╔══██╗╚██╗ ██╔╝ ║
+║  ██║     ██║   ██║██╔████╔██║██║██╔██╗ ██║███████║██████╔╝ ╚████╔╝  ║
+║  ██║     ██║   ██║██║╚██╔╝██║██║██║╚██╗██║██╔══██║██╔══██╗  ╚██╔╝   ║
+║  ███████╗╚██████╔╝██║ ╚═╝ ██║██║██║ ╚████║██║  ██║██║  ██║   ██║    ║
+║  ╚══════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ║
+╚══════════════════════════════════════════╝
+        </pre>
+          <p class="boot-message">
+            INITIALIZING KERNEL MODULES.................... [OK]
+          </p>
+          <p class="boot-message">
+            MOUNTING SECURE FILE SYSTEM.................... [OK]
+          </p>
+          <p class="boot-message">
+            ESTABLISHING ENCRYPTED CHANNEL................. [OK]
+          </p>
+          <p class="boot-message">
+            LOADING USER INTERFACE......................... [OK]
+          </p>
+          <p class="boot-prompt">
+            TYPE
+            <span class="cmd-highlight">help</span>
+            TO BEGIN
+          </p>
+        </div>
+      </div>
+
+      <div class="input-line" id="input-line">
+        <span class="prompt-symbol">❯</span>
+        <input
+          type="text"
+          id="command-input"
+          autofocus
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="Terminal command input"
+        />
+      </div>
+    </main>
+
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+    <script src="terminal.js"></script>
+  </body>
+</html>
